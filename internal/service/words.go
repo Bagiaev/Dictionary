@@ -26,7 +26,7 @@ func (s *Service) GetWordById(c echo.Context) error {
 	return c.JSON(http.StatusOK, Response{Object: word})
 }
 
-// CreateWords добавляем в базу новые слова в базу
+// CreateWords добавляем в базу новые слова
 // localhost:8000/api/words
 func (s *Service) CreateWords(c echo.Context) error {
 	var wordSlice []Word

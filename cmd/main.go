@@ -29,6 +29,12 @@ func main() {
 	api.PUT("/word/:id", svc.EditWord)
 	api.DELETE("/word/:id", svc.DeleteWord)
 
+	// пути для репортов
+	api.GET("/report/:id", svc.GetReportById)
+	api.POST("/report", svc.CreateReport)
+	api.PUT("/report/:id", svc.EditReport)
+	api.DELETE("/report/:id", svc.DeleteReport)
+
 	// запускаем сервер, чтобы слушал 8000 порт
 	router.Logger.Fatal(router.Start(":8000"))
 }
