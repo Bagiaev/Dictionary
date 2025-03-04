@@ -47,3 +47,45 @@ func (s *Service) CreateWords(c echo.Context) error {
 
 	return c.String(http.StatusOK, "OK")
 }
+
+// EditWord изменяем слово в базе по id или добавляем новое если такого id нет
+// localhost:8000/api/word/:id
+func (s *Service) EditWord(c echo.Context) error {
+	var wordSlice []Word
+	err := c.Bind(&wordSlice)
+	if err != nil {
+		s.logger.Error(err)
+		return c.JSON(s.NewError(InvalidParams))
+	}
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		s.logger.Error(err)
+		return c.JSON(s.NewError(InvalidParams))
+	}
+	repo := s.wordsRepo
+	for _, word := range wordSlice {
+		err = repo.EditWord(word.Title, word.Translation, id)
+	}
+	if err != nil {
+		s.logger.Error(err)
+		return c.JSON(s.NewError(InternalServerError))
+	}
+
+	return c.String(http.StatusOK, "OK")
+}
+
+// DeleteWord удаляем слово из базы по id
+// localhost:8000/api/word/:id
+func (s *Service) DeleteWord(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		s.logger.Error(err)
+	}
+	repo := s.wordsRepo
+	err = repo.DeleteWord(id)
+	if err != nil {
+		s.logger.Error(err)
+		return c.JSON(s.NewError(InternalServerError))
+	}
+	return c.String(http.StatusOK, "OK")
+}
