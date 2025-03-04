@@ -35,6 +35,8 @@ func main() {
 	api.PUT("/report/:id", svc.EditReport)
 	api.DELETE("/report/:id", svc.DeleteReport)
 
+	// для умного поиска
+	api.GET("/search/ru", svc.SearchSimilarWords)
 	// запускаем сервер, чтобы слушал 8000 порт
 	router.Logger.Fatal(router.Start(":8000"))
 }

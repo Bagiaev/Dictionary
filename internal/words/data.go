@@ -52,3 +52,24 @@ func (r *Repo) DeleteWord(id int) error {
 	}
 	return nil
 }
+
+//SearchWordsByKeyword ищет 100 самых похожих слов на keyword
+func (r *Repo) SearchWordsByKeyword(keyword string) ([]Word, error) {
+	var wordSlice []Word
+	rows, err := r.db.Query(`SELECT id, title, translation
+FROM ru_en
+ORDER BY similarity(title, $1) DESC
+LIMIT 100;`, keyword)
+	if err != nil {
+		return nil, err
+	}
+	for rows.Next() {
+		var word Word
+		err = rows.Scan(&word.Id, &word.Title, &word.Translation)
+		if err != nil {
+			return nil, err
+		}
+		wordSlice = append(wordSlice, word)
+	}
+	return wordSlice, nil
+}

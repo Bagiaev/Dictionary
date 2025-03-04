@@ -46,8 +46,9 @@ INSERT INTO ru_en (title, translation) VALUES
 INSERT INTO reports (title, description) VALUES
                                            ('Не по агъдау', 'Админ крутит пироги при разрерании'),
                                            ('test2', 'desctest2');
-
 UPDATE reports
     SET title = 'зисимирули',
         description = 'they see me rollin'
 WHERE id = 2;
+
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
