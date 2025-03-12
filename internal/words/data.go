@@ -31,3 +31,19 @@ func (r *Repo) CreateNewWords(word, translate string) error {
 
 	return nil
 }
+
+func (r *Repo) UpdateWordById(id int, newTitle, newTranslation string) error {
+	_, err := r.db.Exec(`UPDATE ru_en SET title = $1, translation = $2 WHERE id = $3`, newTitle, newTranslation, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *Repo) DeleteWordById(id int) error {
+	_, err := r.db.Exec(`DELETE FROM ru_en WHERE id = $1`, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}

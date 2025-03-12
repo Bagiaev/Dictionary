@@ -26,7 +26,9 @@ func main() {
 	// прописываем пути
 	api.GET("/word/:id", svc.GetWordById)
 	api.POST("/words", svc.CreateWords)
+	api.PUT("/word/:id", svc.UpdateWord)
+	api.DELETE("/word/:id", svc.DeleteWord)
 
 	// запускаем сервер, чтобы слушал 8000 порт
-	router.Logger.Fatal(router.Start(":8000"))
+	router.Logger.Fatal(router.Start(":8080"))
 }

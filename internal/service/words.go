@@ -47,3 +47,40 @@ func (s *Service) CreateWords(c echo.Context) error {
 
 	return c.String(http.StatusOK, "OK")
 }
+
+func (s *Service) UpdateWord(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		s.logger.Error(err)
+		return c.JSON(s.NewError(InvalidParams))
+	}
+	var word Word
+	err = c.Bind(&word)
+	if err != nil {
+		s.logger.Error(err)
+		return c.JSON(s.NewError(InvalidParams))
+	}
+	repo := s.wordsRepo
+	err = repo.UpdateWordById(id, word.Title, word.Translation)
+	if err != nil {
+		s.logger.Error(err)
+		return c.JSON(s.NewError(InternalServerError))
+	}
+
+	return c.String(http.StatusOK, "OK")
+}
+
+func (s *Service) DeleteWord(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		s.logger.Error(err)
+		return c.JSON(s.NewError(InvalidParams))
+	}
+	repo := s.wordsRepo
+	err = repo.DeleteWordById(id)
+	if err != nil {
+		s.logger.Error(err)
+		return c.JSON(s.NewError(InternalServerError))
+	}
+	return c.String(http.StatusOK, "OK")
+}
