@@ -2,6 +2,7 @@ package service
 
 import (
 	"database/sql"
+	"dictionary/internal/reports"
 
 	"dictionary/internal/words"
 
@@ -34,6 +35,14 @@ func (s *Service) initRepositories(db *sql.DB) {
 	s.wordsRepo = words.NewRepo(db)
 }
 
+func NewReportsService(db *sql.DB, logger echo.Logger) *ReportsService {
+	return &ReportsService{
+		db:          db,
+		logger:      logger,
+		reportsRepo: reports.NewRepo(db),
+	}
+}
+
 // Пока можно не вдаваться в то что ниже
 
 type Response struct {
@@ -47,4 +56,7 @@ func (r *Response) Error() string {
 
 func (s *Service) NewError(err string) (int, *Response) {
 	return 400, &Response{ErrorMessage: err}
+}
+func (s *ReportsService) NewError(serverError string) (int, interface{}) {
+	return 400, &Response{ErrorMessage: serverError}
 }
