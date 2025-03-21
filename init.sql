@@ -23,8 +23,8 @@ INSERT INTO ru_en (title, translation) VALUES
 
 CREATE TABLE reports (
                         id SERIAL PRIMARY KEY,
-                        title VARCHAR(255),
-                        description VARCHAR(255),
+                        title VARCHAR(255) NOT NULL ,
+                        description VARCHAR(255) NOT NULL ,
                         created_at TIMESTAMP DEFAULT now(),
                         updated_at TIMESTAMP DEFAULT now()
 );

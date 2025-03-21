@@ -3,7 +3,6 @@ package service
 import (
 	"database/sql"
 	"dictionary/internal/reports"
-
 	"dictionary/internal/words"
 
 	"github.com/labstack/echo/v4"
@@ -18,7 +17,8 @@ type Service struct {
 	db     *sql.DB
 	logger echo.Logger
 
-	wordsRepo *words.Repo
+	wordsRepo   *words.Repo
+	reportsRepo *reports.Repo
 }
 
 func NewService(db *sql.DB, logger echo.Logger) *Service {
@@ -26,6 +26,7 @@ func NewService(db *sql.DB, logger echo.Logger) *Service {
 		db:     db,
 		logger: logger,
 	}
+
 	svc.initRepositories(db)
 
 	return svc
@@ -33,14 +34,7 @@ func NewService(db *sql.DB, logger echo.Logger) *Service {
 
 func (s *Service) initRepositories(db *sql.DB) {
 	s.wordsRepo = words.NewRepo(db)
-}
-
-func NewReportsService(db *sql.DB, logger echo.Logger) *ReportsService {
-	return &ReportsService{
-		db:          db,
-		logger:      logger,
-		reportsRepo: reports.NewRepo(db),
-	}
+	s.reportsRepo = reports.NewRepo(db)
 }
 
 // Пока можно не вдаваться в то что ниже
@@ -56,7 +50,4 @@ func (r *Response) Error() string {
 
 func (s *Service) NewError(err string) (int, *Response) {
 	return 400, &Response{ErrorMessage: err}
-}
-func (s *ReportsService) NewError(serverError string) (int, interface{}) {
-	return 400, &Response{ErrorMessage: serverError}
 }
