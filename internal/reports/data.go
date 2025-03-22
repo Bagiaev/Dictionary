@@ -13,15 +13,6 @@ func NewRepo(db *sql.DB) *Repo {
 	return &Repo{db: db}
 }
 
-func (r *Repo) reportExists(id int) (bool, error) {
-	var exists bool
-	err := r.db.QueryRow(`SELECT EXISTS(SELECT 1 FROM reports WHERE id = $1)`, id).Scan(&exists)
-	if err != nil {
-		return false, err
-	}
-	return exists, nil
-}
-
 func (r *Repo) GetReportById(id int) (*Report, error) {
 	var report Report
 	err := r.db.QueryRow(`SELECT id, title, description, created_at, updated_at FROM reports WHERE id = $1`, id).
@@ -41,30 +32,19 @@ func (r *Repo) CreateReport(title, description string) error {
 }
 
 func (r *Repo) UpdateReport(id int, title, description string) error {
-	exists, err := r.reportExists(id)
+	var returnedID int
+	err := r.db.QueryRow(`UPDATE reports SET title = $1, description = $2, updated_at = now() WHERE id = $3 RETURNING id`, title, description, id).Scan(&returnedID)
 	if err != nil {
-		return err
+		return fmt.Errorf("kto obzyvaetcya", id)
 	}
-	if !exists {
-		return fmt.Errorf("zalupa", id)
-	}
-
-	_, err = r.db.Exec(`
-		UPDATE reports 
-		SET title = $1, description = $2, updated_at = now() 
-		WHERE id = $3`, title, description, id)
-	return err
+	return nil
 }
 
 func (r *Repo) DeleteReport(id int) error {
-	exists, err := r.reportExists(id)
+	var returnedID int
+	err := r.db.QueryRow(`DELETE FROM reports WHERE id = $1 RETURNING id`, id).Scan(&returnedID)
 	if err != nil {
-		return err
+		return fmt.Errorf("tot cam tak nazyvaetcya", id)
 	}
-	if !exists {
-		return fmt.Errorf("zalupa", id)
-	}
-
-	_, err = r.db.Exec(`DELETE FROM reports WHERE id = $1`, id)
-	return err
+	return nil
 }
