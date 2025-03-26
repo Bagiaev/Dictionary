@@ -47,3 +47,23 @@ func (r *Repo) DeleteWordById(id int) error {
 	}
 	return nil
 }
+
+func (r *Repo) SearchWords(query string, limit int) ([]Word, error) {
+	rows, err := r.db.Query(`SELECT id, title, translation FROM ru_en WHERE $1 <% title ORDER BY title <-> $1 LIMIT $2
+    `, query, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	var words []Word
+	for rows.Next() {
+		var word Word
+		err := rows.Scan(&word.Id, &word.Title, &word.Translation)
+		if err != nil {
+			return nil, err
+		}
+		words = append(words, word)
+	}
+
+	return words, nil
+}

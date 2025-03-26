@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"dictionary/internal/reports"
 	"dictionary/internal/words"
-
 	"github.com/labstack/echo/v4"
 )
 

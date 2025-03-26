@@ -37,6 +37,11 @@ func PostgresConnection() (*sql.DB, error) {
 		return nil, err
 	}
 
+	_, err = db.Exec("CREATE EXTENSION IF NOT EXISTS pg_trgm;")
+	if err != nil {
+		return nil, fmt.Errorf("Error creating EXTENSION pg_trgm: %s", err)
+	}
+
 	return db, nil
 }
 

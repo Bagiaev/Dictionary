@@ -7,6 +7,22 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+func (s *Service) SearchWords(c echo.Context) error {
+	query := c.QueryParam("title")
+	if query == "" {
+		return c.JSON(s.NewError("pupa"))
+	}
+
+	repo := s.wordsRepo
+	words, err := repo.SearchWords(query, 100)
+	if err != nil {
+		s.logger.Error(err)
+		return c.JSON(s.NewError(InternalServerError))
+	}
+
+	return c.JSON(http.StatusOK, Response{Object: words})
+}
+
 // GetWordById ищем слово по id
 // localhost:8000/api/word/:id
 func (s *Service) GetWordById(c echo.Context) error {
