@@ -8,13 +8,13 @@ import (
 )
 
 func (s *Service) SearchWords(c echo.Context) error {
-	query := c.QueryParam("title")
-	if query == "" {
+	title := c.QueryParam("title")
+	if title == "" {
 		return c.JSON(s.NewError("pupa"))
 	}
 
 	repo := s.wordsRepo
-	words, err := repo.SearchWords(query, 100)
+	words, err := repo.SearchWords(title)
 	if err != nil {
 		s.logger.Error(err)
 		return c.JSON(s.NewError(InternalServerError))
