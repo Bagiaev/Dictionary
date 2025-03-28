@@ -28,3 +28,5 @@ CREATE TABLE reports (
                         created_at TIMESTAMP DEFAULT now(),
                         updated_at TIMESTAMP DEFAULT now()
 );
+
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
