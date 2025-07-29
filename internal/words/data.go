@@ -31,3 +31,22 @@ func (r *Repo) CreateNewWords(word, translate string) error {
 
 	return nil
 }
+
+//Задание 1
+// RUpdateWord обновляет слово в базе
+func (r *Repo) RUpdateWord(id int, title, translation string) error {
+	_, err := r.db.Exec(`UPDATE ru_en SET title = $1, translation = $2 WHERE id = $3`, title, translation, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// RDeleteWord удаляет слово из базы
+func (r *Repo) RDeleteWord(id int) error {
+	_, err := r.db.Exec(`DELETE FROM ru_en WHERE id = $1`, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
