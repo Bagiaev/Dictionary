@@ -50,7 +50,7 @@ func (s *Service) CreateWords(c echo.Context) error {
 
 // Новые ручки "Задание 1"
 // UpdateWord обновляет слово по ID
-// localhost:8000/api/words/:id
+// localhost:8000/api/word/:id
 func (s *Service) UpdateWord(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

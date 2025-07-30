@@ -20,3 +20,12 @@ INSERT INTO ru_en (title, translation) VALUES
                                            ('Машина', 'Car'),
                                            ('Окно', 'Window'),
                                            ('Ручка', 'Pen');
+
+CREATE TABLE IF NOT EXISTS reports (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP
+);
+

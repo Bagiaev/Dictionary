@@ -28,8 +28,15 @@ func main() {
 	api.POST("/words", svc.CreateWords)
 
 	//Новые ручки "Задание 1"
-	api.PATCH("/word/:id", svc.UpdateWord)  // Обновление
+	api.PUT("/word/:id", svc.UpdateWord)    // Обновление
 	api.DELETE("/word/:id", svc.DeleteWord) // Удаление
+
+	//Задание 2
+	//Пути reports
+	api.GET("/report/:id", svc.GetReport)
+	api.PATCH("/report/:id", svc.UpdateReport)
+	api.POST("/report", svc.CreateReport)
+	api.DELETE("/report/:id", svc.DeleteReport)
 
 	// запускаем сервер, чтобы слушал 8000 порт
 	router.Logger.Fatal(router.Start(":8000"))
