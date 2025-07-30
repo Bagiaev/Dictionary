@@ -29,3 +29,4 @@ CREATE TABLE IF NOT EXISTS reports (
     updated_at TIMESTAMP
 );
 
+CREATE EXTENSION IF NOT EXISTS pg_trgm;

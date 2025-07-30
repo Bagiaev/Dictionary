@@ -15,7 +15,7 @@ func NewRepo(db *sql.DB) *Repo {
 func (r *Repo) RCreateReport(title, description string) error {
 	_, err := r.db.Exec(
 		`INSERT INTO reports (title, description, created_at, updated_at) 
-         VALUES ($1, $2, CURRENT_TIMESTAMP, NULL)`,
+         VALUES ($1, $2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
 		title, description,
 	)
 	if err != nil {

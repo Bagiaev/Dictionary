@@ -34,10 +34,12 @@ func main() {
 	//Задание 2
 	//Пути reports
 	api.GET("/report/:id", svc.GetReport)
-	api.PATCH("/report/:id", svc.UpdateReport)
+	api.PUT("/report/:id", svc.UpdateReport)
 	api.POST("/report", svc.CreateReport)
 	api.DELETE("/report/:id", svc.DeleteReport)
 
+	//Поиск 100 слов
+	api.GET("/search/ru", svc.SearchWords)
 	// запускаем сервер, чтобы слушал 8000 порт
 	router.Logger.Fatal(router.Start(":8000"))
 }
